@@ -5,6 +5,6 @@ public class DockScheduling {
 
 	
 	
-	//TODO: create score variable
+	//TODO: create score variable.
 	
 }
