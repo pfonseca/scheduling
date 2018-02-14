@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+	<!-- Domain model configuration -->
+	<scanAnnotatedClasses />
+
+	<!-- Score configuration -->
+	<scoreDirectorFactory>
+		<!-- <easyScoreCalculatorClass>org.optaplanner.examples.cloudbalancing.optional.score.CloudBalancingEasyScoreCalculator</easyScoreCalculatorClass> -->
+		<scoreDrl>schedulingScoreRules.drl</scoreDrl>
+	</scoreDirectorFactory>
+
+	<!-- Optimization algorithms configuration -->
+	<termination>
+		<terminationCompositionStyle>OR</terminationCompositionStyle>
+		
+		<secondsSpentLimit>5</secondsSpentLimit>
+		<!-- <bestScoreLimit>0hard/0soft</bestScoreLimit>  not working -->
+		<!-- <bestScoreFeasible>true</bestScoreFeasible> -->
+	</termination>
+	
+</solver>

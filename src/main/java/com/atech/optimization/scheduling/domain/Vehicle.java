@@ -2,6 +2,8 @@ package com.atech.optimization.scheduling.domain;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 public class Vehicle {
 
 	private Long id;
@@ -22,6 +24,9 @@ public class Vehicle {
 		this.vehicleType = vehicleType;
 	}
 	public List<Document> getDocuments() {
+		if(documents == null)
+			documents = Lists.newArrayList();
+		
 		return documents;
 	}
 	public void setDocuments(List<Document> documents) {

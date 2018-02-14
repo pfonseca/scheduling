@@ -1,0 +1,113 @@
+
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
+
+import com.atech.optimization.scheduling.domain.Dock;
+import com.atech.optimization.scheduling.domain.DockAssignment;
+import com.atech.optimization.scheduling.domain.OperationType;
+import com.atech.optimization.scheduling.domain.Period;
+
+global HardSoftScoreHolder scoreHolder;
+
+// ############################################################################
+// Hard constraints
+// ############################################################################
+
+rule "Dock conflict"
+    when
+        $leftAssignment : DockAssignment(dock != null, $leftId : id, $dock : dock)
+        $rightAssignment : DockAssignment(dock == $dock, calculateOverlap($leftAssignment) > 0)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, - $rightAssignment.calculateOverlap($leftAssignment));
+end
+
+rule "Document conflict"
+    when
+        $assignment : DockAssignment(document != null)
+        exists DockAssignment(id != $assignment.id, document == $assignment.document)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+rule "Period validation"
+    when
+        exists DockAssignment(period != null, period.dock != dock)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+rule "Document type"
+    when
+    		exists DockAssignment(dock != null, document != null, dock.isDocumentSupported(document) == false)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+//rule "requiredCpuPowerTotal"
+//    when
+//        $computer : Computer($cpuPower : cpuPower)
+//        accumulate(
+//            Process(
+//                computer == $computer,
+//                $requiredCpuPower : requiredCpuPower);
+//            $requiredCpuPowerTotal : sum($requiredCpuPower);
+//            $requiredCpuPowerTotal > $cpuPower
+//        )
+//    then
+//        scoreHolder.addHardConstraintMatch(kcontext, $cpuPower - $requiredCpuPowerTotal);
+//end
+//
+//rule "requiredMemoryTotal"
+//   	when
+//        $computer : Computer($memory : memory)
+//        accumulate(
+//            Process(
+//                computer == $computer,
+//                $requiredMemory : requiredMemory);
+//            $requiredMemoryTotal : sum($requiredMemory);
+//            $requiredMemoryTotal > $memory
+//        )
+//    then
+//        scoreHolder.addHardConstraintMatch(kcontext, $memory - $requiredMemoryTotal);
+//end
+//
+//rule "requiredNetworkBandwidthTotal"
+//	when
+//        $computer : Computer($networkBandwidth : networkBandwidth)
+//        accumulate(
+//            Process(
+//                computer == $computer,
+//                $requiredNetworkBandwidth : requiredNetworkBandwidth);
+//            $requiredNetworkBandwidthTotal : sum($requiredNetworkBandwidth);
+//            $requiredNetworkBandwidthTotal > $networkBandwidth
+//        )
+//    then
+//        scoreHolder.addHardConstraintMatch(kcontext, $networkBandwidth - $requiredNetworkBandwidthTotal);
+//end
+
+
+// ############################################################################
+// Soft constraints
+// ############################################################################
+
+//rule "computerCost"
+//    when
+//        $computer : Computer($cost : cost)
+//        exists Process(computer == $computer)
+//    then
+//        scoreHolder.addSoftConstraintMatch(kcontext, - $cost);
+//end
+
+//rule "loadBalance"
+//	when
+//		$computer : Computer($memory : memory)
+//        accumulate(
+//            Process(
+//                computer == $computer,
+//                $requiredMemory : requiredMemory);
+//            $total : sum(1);
+//            $total >= 0
+//        )
+//    then
+//        scoreHolder.addSoftConstraintMatch(kcontext, + $total.intValue() );
+//end
+

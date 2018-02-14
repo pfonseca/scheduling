@@ -2,6 +2,16 @@ package com.atech.optimization.scheduling.domain;
 
 public class Capacity {
 
+	public Capacity(VehicleType vehicleType, int size) {
+		super();
+		this.vehicleType = vehicleType;
+		this.size = size;
+	}
+	
+	public Capacity() {
+		
+	}
+	
 	private VehicleType vehicleType;
 	private int size;
 	
