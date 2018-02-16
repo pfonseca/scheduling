@@ -5,6 +5,8 @@ import com.atech.optimization.scheduling.domain.Dock;
 import com.atech.optimization.scheduling.domain.DockAssignment;
 import com.atech.optimization.scheduling.domain.OperationType;
 import com.atech.optimization.scheduling.domain.Period;
+import com.atech.optimization.scheduling.domain.Vehicle;
+import java.util.HashSet;
 
 global HardSoftScoreHolder scoreHolder;
 
@@ -40,6 +42,23 @@ rule "Document type"
     		exists DockAssignment(dock != null, document != null, dock.isDocumentSupported(document) == false)
     then
         scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+// ############################################################################
+// Soft constraints
+// ############################################################################
+
+rule "Dock Cost"
+    when
+        $vehicle : Vehicle($documents: documents)
+        $set : HashSet ( ) from accumulate(
+        		DockAssignment($documents contains document, $dock: dock),
+        		init ( HashSet docksSet = new HashSet<Dock>(); ),
+        		action ( docksSet.add($dock); ),
+        		result ( docksSet )
+        )
+    then
+        scoreHolder.addSoftConstraintMatch(kcontext, - $set.size());
 end
 
 //rule "requiredCpuPowerTotal"
