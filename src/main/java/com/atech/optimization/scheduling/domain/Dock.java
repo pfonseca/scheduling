@@ -60,7 +60,7 @@ public class Dock {
 		
 		Boolean vehicleType = capacities.stream()
 				.filter(capacity -> capacity.getSize() > 0)
-				.anyMatch(capacity -> capacity.getVehicleType() == document.getVehicle().getVehicleType());
+				.anyMatch(capacity -> capacity.getVehicleType().equals(document.getVehicle().getVehicleType()));
 		
 		return this.operationTypes.contains(document.getOperationType()) && vehicleType; 
 	}

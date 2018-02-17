@@ -40,10 +40,12 @@ public class SchedulingApplication {
 		
 		DockScheduling dockScheduling = solver.solve(unsolvedDockScheduling);
 
-		for (DockAssignment dockAssignment : dockScheduling.getDockAssignments()) {
+		dockScheduling.getDockAssignments().stream().sorted((dockScheduling1, dockScheduling2) -> {
+			return (dockScheduling1.getPeriod().getStartingMinuteOfDay() > dockScheduling2.getPeriod().getStartingMinuteOfDay()? 1: -1);
+		}).forEach(dockAssignment -> {
 			System.out.println(dockAssignment.getPeriod());
-			System.out.println("\t" + dockAssignment.getDocument().getId());
-		}
+			System.out.println("\t" + dockAssignment.getDocument().getId()+ " "+dockAssignment.getDocument().getOperationType());
+		});
 
 		System.out.println("Finished");
 		System.out.println("Initial Score: " + dockScheduling.getScore().getInitScore());

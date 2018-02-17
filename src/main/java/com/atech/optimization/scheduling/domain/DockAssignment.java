@@ -49,17 +49,23 @@ public class DockAssignment {
 			return 0;
 		}
 
-		int start = period.getStartingMinuteOfDay();
-		int end = start + period.getLength();
-		int otherStart = other.getPeriod().getStartingMinuteOfDay();
-		int otherEnd = otherStart + other.getPeriod().getLength();
-
-		if (end < otherStart) {
-			return 0;
-		} else if (otherEnd < start) {
-			return 0;
+		if(other.getDocument().getOperationType() != this.getDocument().getOperationType()) {
+			
+			int start = period.getStartingMinuteOfDay();
+			int end = start + period.getLength();
+			int otherStart = other.getPeriod().getStartingMinuteOfDay();
+			int otherEnd = otherStart + other.getPeriod().getLength();
+			
+			if (end < otherStart) {
+				return 0;
+			} else if (otherEnd < start) {
+				return 0;
+			}
+			return Math.min(end, otherEnd) - Math.max(start, otherStart);
+			
 		}
-		return Math.min(end, otherEnd) - Math.max(start, otherStart);
+		
+		return 0;
 	}
 
 	@PlanningVariable(valueRangeProviderRefs = { "documentRange" })
@@ -68,9 +74,6 @@ public class DockAssignment {
 	}
 
 	public void setDocument(Document document) {
-//		if(dock != null && document != null)
-//			System.out.println(dock.getName()+ " " + document.getId());
-		
 		this.document = document;
 	}
 

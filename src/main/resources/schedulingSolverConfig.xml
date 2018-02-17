@@ -15,7 +15,7 @@
 		
 		<secondsSpentLimit>5</secondsSpentLimit>
 	<!-- 	<bestScoreLimit>-90hard/1soft</bestScoreLimit> -->
-		<!-- <bestScoreFeasible>true</bestScoreFeasible> -->
+		<bestScoreFeasible>true</bestScoreFeasible>
 	</termination>
 	
 </solver>
