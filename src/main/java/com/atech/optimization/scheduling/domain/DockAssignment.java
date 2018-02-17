@@ -49,7 +49,7 @@ public class DockAssignment {
 			return 0;
 		}
 
-		if(other.getDocument().getOperationType() != this.getDocument().getOperationType()) {
+	//	if(other.getDocument().getOperationType() != this.getDocument().getOperationType()) {
 			
 			int start = period.getStartingMinuteOfDay();
 			int end = start + period.getLength();
@@ -63,9 +63,9 @@ public class DockAssignment {
 			}
 			return Math.min(end, otherEnd) - Math.max(start, otherStart);
 			
-		}
-		
-		return 0;
+//		}
+//		
+//		return 0;
 	}
 
 	@PlanningVariable(valueRangeProviderRefs = { "documentRange" })
