@@ -2,10 +2,11 @@ package com.atech.optimization.scheduling.domain;
 
 public class Document {
 
-	public Document(String id, OperationType operationType) {
+	public Document(String id, OperationType operationType, Vehicle vehicle) {
 		super();
 		this.id = id;
 		this.operationType = operationType;
+		this.vehicle = vehicle;
 	}
 	
 	public Document() {
@@ -14,6 +15,7 @@ public class Document {
 	
 	private String id;
 	private OperationType operationType;
+	private Vehicle vehicle;
 	
 	
 	public String getId() {
@@ -52,6 +54,14 @@ public class Document {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
 	}
 	
 	

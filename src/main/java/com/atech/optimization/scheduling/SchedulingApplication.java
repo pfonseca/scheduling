@@ -1,14 +1,15 @@
 package com.atech.optimization.scheduling;
 
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
+import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
+import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.atech.optimization.scheduling.domain.Dock;
 import com.atech.optimization.scheduling.domain.DockAssignment;
 import com.atech.optimization.scheduling.domain.DockScheduling;
-import com.google.common.collect.Lists;
 
 //@SpringBootApplication
 public class SchedulingApplication {
@@ -26,6 +27,16 @@ public class SchedulingApplication {
 
 		// Solve the problem
 		DockScheduling unsolvedDockScheduling = new DockSchedulingGenerator().getScheduling();
+		
+		
+		solver.addEventListener(new SolverEventListener<DockScheduling>() {
+			@Override
+			public void bestSolutionChanged(BestSolutionChangedEvent<DockScheduling> event) {
+				HardSoftScore newBestScore = (HardSoftScore) event.getNewBestScore();
+				System.out.println("Hard Score: " + newBestScore.getHardScore());
+				System.out.println("Soft Score: " + newBestScore.getSoftScore());
+			}
+		});
 		
 		DockScheduling dockScheduling = solver.solve(unsolvedDockScheduling);
 

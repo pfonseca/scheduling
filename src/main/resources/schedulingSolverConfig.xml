@@ -14,7 +14,7 @@
 		<terminationCompositionStyle>OR</terminationCompositionStyle>
 		
 		<secondsSpentLimit>5</secondsSpentLimit>
-		<!-- <bestScoreLimit>0hard/0soft</bestScoreLimit>  not working -->
+	<!-- 	<bestScoreLimit>-90hard/1soft</bestScoreLimit> -->
 		<!-- <bestScoreFeasible>true</bestScoreFeasible> -->
 	</termination>
 	

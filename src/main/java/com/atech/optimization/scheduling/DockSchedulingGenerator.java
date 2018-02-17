@@ -1,6 +1,9 @@
 
 package com.atech.optimization.scheduling;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.atech.optimization.scheduling.domain.Capacity;
 import com.atech.optimization.scheduling.domain.Dock;
 import com.atech.optimization.scheduling.domain.DockAssignment;
@@ -28,7 +31,7 @@ public class DockSchedulingGenerator {
 		dockScheduling.getDockAssignments().add(new DockAssignment(2L));
 		dockScheduling.getDockAssignments().add(new DockAssignment(3L));
 
-		dockScheduling.getDocuments().addAll(dockScheduling.getVehicle().getDocuments());
+		dockScheduling.getDocuments().addAll(getDocuments(dockScheduling.getVehicle()));
 
 		// Adding periods
 		addPeriods(dockScheduling);
@@ -36,17 +39,27 @@ public class DockSchedulingGenerator {
 		return dockScheduling;
 	}
 
+	private List<Document> getDocuments(Vehicle vehicle) {
+		List<Document> documents = new ArrayList<>();
+		
+		documents.add(new Document("DOCUMENT-2", OperationType.PICKUP, vehicle));
+		documents.add(new Document("DOCUMENT-1", OperationType.DELIVERY, vehicle));
+		documents.add(new Document("DOCUMENT-3", OperationType.DELIVERY, vehicle));
+		
+		return documents;
+	}
+
 	private void addPeriods(DockScheduling dockScheduling) {
 
 		Dock dockA = dockScheduling.getDocks().get(0);
 		Dock dockB = dockScheduling.getDocks().get(1);
 
-		for (int i = 0; i < 6; i++) {
-			dockScheduling.getPeriods().add(new Period(dockA, 10, 480 + i * 30, 30));
+		for (int i = 0; i < 8; i++) {
+			dockScheduling.getPeriods().add(new Period(dockA, 10, 700 - i * 30, 30));
 		}
 		
-		for (int i = 0; i < 6; i++) {
-			dockScheduling.getPeriods().add(new Period(dockB, 10, 480 + i * 30, 30));
+		for (int i = 0; i < 8; i++) {
+			dockScheduling.getPeriods().add(new Period(dockB, 10, 700 - i * 30, 30));
 		}
 
 	}
@@ -55,10 +68,6 @@ public class DockSchedulingGenerator {
 		Vehicle vehicle = new Vehicle();
 		vehicle.setId(1L);
 		vehicle.setVehicleType(VehicleType.TRUCK);
-
-		vehicle.getDocuments().add(new Document("DOCUMENT-2", OperationType.PICKUP));
-		vehicle.getDocuments().add(new Document("DOCUMENT-1", OperationType.DELIVERY));
-		vehicle.getDocuments().add(new Document("DOCUMENT-3", OperationType.DELIVERY));
 
 		dockScheduling.setVehicle(vehicle);
 	}

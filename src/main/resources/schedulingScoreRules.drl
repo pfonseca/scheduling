@@ -6,6 +6,9 @@ import com.atech.optimization.scheduling.domain.DockAssignment;
 import com.atech.optimization.scheduling.domain.OperationType;
 import com.atech.optimization.scheduling.domain.Period;
 import com.atech.optimization.scheduling.domain.Vehicle;
+import com.atech.optimization.scheduling.domain.OperationType;
+import com.atech.optimization.scheduling.domain.Document;
+
 import java.util.HashSet;
 
 global HardSoftScoreHolder scoreHolder;
@@ -17,7 +20,7 @@ global HardSoftScoreHolder scoreHolder;
 rule "Dock conflict"
     when
         $leftAssignment : DockAssignment(dock != null, $leftId : id, $dock : dock)
-        $rightAssignment : DockAssignment(dock == $dock, calculateOverlap($leftAssignment) > 0)
+        $rightAssignment : DockAssignment(calculateOverlap($leftAssignment) > 0)
     then
         scoreHolder.addHardConstraintMatch(kcontext, - $rightAssignment.calculateOverlap($leftAssignment));
 end
@@ -44,15 +47,26 @@ rule "Document type"
         scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
+rule "Order"
+    when
+    		$vehicle : Vehicle()
+    		$documentDelivery: Document(vehicle == $vehicle, operationType == OperationType.DELIVERY)
+    		$dockAssignmentDelivery : DockAssignment(document == $documentDelivery)
+    		$documentPickup: Document(vehicle == $vehicle, operationType == OperationType.PICKUP)
+    		exists(DockAssignment(document == $documentPickup, period.startingMinuteOfDay > $dockAssignmentDelivery.period.startingMinuteOfDay))
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
 // ############################################################################
 // Soft constraints
 // ############################################################################
 
 rule "Dock Cost"
     when
-        $vehicle : Vehicle($documents: documents)
+        $vehicle : Vehicle()
         $set : HashSet ( ) from accumulate(
-        		DockAssignment($documents contains document, $dock: dock),
+        		DockAssignment(document != null, document.vehicle == $vehicle, $dock: dock),
         		init ( HashSet docksSet = new HashSet<Dock>(); ),
         		action ( docksSet.add($dock); ),
         		result ( docksSet )

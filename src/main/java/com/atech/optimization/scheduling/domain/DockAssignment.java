@@ -49,12 +49,6 @@ public class DockAssignment {
 			return 0;
 		}
 
-//		if (this.getDock() != null)
-//			System.out.println("overlap1: " + this.getDock().getName());
-//
-//		if (other.getDock() != null)
-//			System.out.println("overlap2: " + other.getDock().getName());
-
 		int start = period.getStartingMinuteOfDay();
 		int end = start + period.getLength();
 		int otherStart = other.getPeriod().getStartingMinuteOfDay();
@@ -74,6 +68,9 @@ public class DockAssignment {
 	}
 
 	public void setDocument(Document document) {
+//		if(dock != null && document != null)
+//			System.out.println(dock.getName()+ " " + document.getId());
+		
 		this.document = document;
 	}
 
