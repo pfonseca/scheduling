@@ -42,8 +42,8 @@ public class DockSchedulingGenerator {
 	private List<Document> getDocuments(Vehicle vehicle) {
 		List<Document> documents = new ArrayList<>();
 		
-		documents.add(new Document("DOCUMENT-2", OperationType.PICKUP, vehicle));
 		documents.add(new Document("DOCUMENT-1", OperationType.DELIVERY, vehicle));
+		documents.add(new Document("DOCUMENT-2", OperationType.PICKUP, vehicle));
 		documents.add(new Document("DOCUMENT-3", OperationType.DELIVERY, vehicle));
 		
 		return documents;
@@ -75,11 +75,11 @@ public class DockSchedulingGenerator {
 	private void addDocks(DockScheduling dockScheduling) {
 
 		Dock dockA = new Dock(1L, "Dock A",
-				Lists.newArrayList(new Capacity(VehicleType.CAR, 2), new Capacity(VehicleType.TRUCK, 1)),
+				Lists.newArrayList(new Capacity(VehicleType.CAR, 5), new Capacity(VehicleType.TRUCK, 2)),
 				Lists.newArrayList(OperationType.DELIVERY));
 
 		Dock dockB = new Dock(2L, "Dock B",
-				Lists.newArrayList(new Capacity(VehicleType.CAR, 2), new Capacity(VehicleType.TRUCK, 1)),
+				Lists.newArrayList(new Capacity(VehicleType.CAR, 2), new Capacity(VehicleType.TRUCK, 2)),
 				Lists.newArrayList(OperationType.PICKUP, OperationType.DELIVERY));
 
 		dockScheduling.getDocks().add(dockA);

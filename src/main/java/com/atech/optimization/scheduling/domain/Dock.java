@@ -58,7 +58,11 @@ public class Dock {
 		if(document == null)
 			return true;
 		
-		return this.operationTypes.contains(document.getOperationType()); 
+		Boolean vehicleType = capacities.stream()
+				.filter(capacity -> capacity.getSize() > 0)
+				.anyMatch(capacity -> capacity.getVehicleType() == document.getVehicle().getVehicleType());
+		
+		return this.operationTypes.contains(document.getOperationType()) && vehicleType; 
 	}
 
 	@Override
