@@ -19,14 +19,6 @@ global HardSoftScoreHolder scoreHolder;
 // Hard constraints
 // ############################################################################
 
-rule "Dock conflict"
-    when
-        $leftAssignment : DockAssignment(dock != null, $leftId : id, $dock : dock)
-        $rightAssignment : DockAssignment(calculateOverlap($leftAssignment) > 0)
-    then
-        scoreHolder.addHardConstraintMatch(kcontext, - $rightAssignment.calculateOverlap($leftAssignment));
-end
-
 rule "Document conflict"
     when
         $assignment : DockAssignment(document != null)
@@ -58,6 +50,14 @@ rule "Order Documents"
     		exists(DockAssignment(document == $documentPickup, period.startingMinuteOfDay < $dockAssignmentDelivery.period.startingMinuteOfDay))
     then
         scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+rule "Dock conflict"
+    when
+        $leftAssignment : DockAssignment(dock != null, $leftId : id, $dock : dock)
+        $rightAssignment : DockAssignment(dock != null, $leftAssignment.calculateOverlap($rightAssignment) > 0)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, - $rightAssignment.calculateOverlap($leftAssignment));
 end
 
 // ############################################################################

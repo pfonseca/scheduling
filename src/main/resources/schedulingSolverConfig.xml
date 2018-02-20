@@ -3,6 +3,10 @@
 	<!-- Domain model configuration -->
 	<scanAnnotatedClasses />
 
+	<constructionHeuristic>
+    		<constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
+  	</constructionHeuristic>
+
 	<!-- Score configuration -->
 	<scoreDirectorFactory>
 		<!-- <easyScoreCalculatorClass>org.optaplanner.examples.cloudbalancing.optional.score.CloudBalancingEasyScoreCalculator</easyScoreCalculatorClass> -->
@@ -15,7 +19,7 @@
 		
 		<secondsSpentLimit>5</secondsSpentLimit>
 	<!-- 	<bestScoreLimit>-90hard/1soft</bestScoreLimit> -->
-		<bestScoreFeasible>true</bestScoreFeasible>
+	<!-- 	<bestScoreFeasible>true</bestScoreFeasible> -->
 	</termination>
 	
 </solver>
