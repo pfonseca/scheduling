@@ -47,7 +47,7 @@ rule "Order Documents"
     		$documentDelivery: Document(vehicle == $vehicle, operationType == OperationType.DELIVERY)
     		$dockAssignmentDelivery : DockAssignment(document == $documentDelivery)
     		$documentPickup: Document(vehicle == $vehicle, operationType == OperationType.PICKUP)
-    		exists(DockAssignment(document == $documentPickup, period.startingMinuteOfDay < $dockAssignmentDelivery.period.startingMinuteOfDay))
+    		exists(DockAssignment(document == $documentPickup, period.startingMinuteOfDay > $dockAssignmentDelivery.period.startingMinuteOfDay))
     then
         scoreHolder.addHardConstraintMatch(kcontext, -1);
 end

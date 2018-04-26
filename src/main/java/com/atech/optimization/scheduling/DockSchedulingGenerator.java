@@ -84,19 +84,20 @@ public class DockSchedulingGenerator {
 
 		Dock dockA = new Dock(1L, "Dock A",
 				Lists.newArrayList(new Capacity(VehicleType.CAR, 5), new Capacity(VehicleType.TRUCK, 0)),
-				Lists.newArrayList(OperationType.DELIVERY));
+				Lists.newArrayList(OperationType.DELIVERY, OperationType.PICKUP));
 
 		Dock dockB = new Dock(2L, "Dock B",
-				Lists.newArrayList(new Capacity(VehicleType.CAR, 2), new Capacity(VehicleType.TRUCK, 2)),
-				Lists.newArrayList(OperationType.PICKUP, OperationType.DELIVERY));
+				Lists.newArrayList(new Capacity(VehicleType.CAR, 2), new Capacity(VehicleType.TRUCK, 1)),
+				Lists.newArrayList(OperationType.PICKUP));
 		
 		Dock dockC = new Dock(3L, "Dock C",
 				Lists.newArrayList(new Capacity(VehicleType.CAR, 2), new Capacity(VehicleType.TRUCK, 4)),
-				Lists.newArrayList(OperationType.PICKUP));
+				Lists.newArrayList(OperationType.DELIVERY));
 		
 		dockScheduling.getDocks().add(dockA);
 		dockScheduling.getDocks().add(dockB);
 		dockScheduling.getDocks().add(dockC);
+		
 	}
 
 }

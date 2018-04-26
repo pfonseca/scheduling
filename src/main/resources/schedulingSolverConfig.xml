@@ -17,9 +17,9 @@
 	<termination>
 		<terminationCompositionStyle>OR</terminationCompositionStyle>
 		
-		<secondsSpentLimit>5</secondsSpentLimit>
+		<secondsSpentLimit>30</secondsSpentLimit>
 	<!-- 	<bestScoreLimit>-90hard/1soft</bestScoreLimit> -->
-	<!-- 	<bestScoreFeasible>true</bestScoreFeasible> -->
+	 	<bestScoreFeasible>true</bestScoreFeasible>
 	</termination>
 	
 </solver>
