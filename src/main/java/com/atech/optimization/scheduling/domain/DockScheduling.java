@@ -30,8 +30,39 @@ public class DockScheduling {
 	public List<Dock> getDocks() {
 		if(docks == null)
 			docks = Lists.newArrayList();
-		
 		return docks;
+	}
+	
+	public void sortDocks() {
+		
+		docks.sort((dock1, dock2) -> {
+			
+			boolean dock1HasDelivery = dock1.getOperationTypes().contains(OperationType.DELIVERY);
+			boolean dock2HasDelivery = dock2.getOperationTypes().contains(OperationType.DELIVERY);
+			
+			if(dock1HasDelivery && dock2HasDelivery) {
+				boolean dock1HasPickup = dock1.getOperationTypes().contains(OperationType.PICKUP);
+				boolean dock2HasPickup = dock2.getOperationTypes().contains(OperationType.PICKUP);
+				
+				if(dock1HasPickup)
+					return -1;
+				
+				if(dock2HasPickup)
+					return 1;
+				
+				return 0;
+			}
+			
+			if(dock1HasDelivery) {
+				return -1;
+			}
+			
+			if(dock2HasDelivery)
+				return 1;
+			
+			return 0;
+		});
+		
 	}
 
 	public void setDocks(List<Dock> docks) {
@@ -43,6 +74,7 @@ public class DockScheduling {
 	public List<Document> getDocuments() {
 		if(documents == null)
 			documents = Lists.newArrayList();
+		
 		return documents;
 	}
 
